@@ -1,10 +1,3 @@
-<?php
-//設定関連を読み込む
-include_once('../config.php');//別ファイルを読み込む onceで一度しか読み込まなくなる
-//便利な関数を読み込む
-include_once('../util.php');
-
-?>
 <!DOCTYPE html>
 <html lang="ja">
  
