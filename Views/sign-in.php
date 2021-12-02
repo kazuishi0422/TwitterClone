@@ -1,10 +1,3 @@
-<?php
-//設定関連を読み込む
-include_once('../config.php');//別ファイルを読み込む onceで一度しか読み込まなくなる
-//便利な関数を読み込む
-include_once('../util.php');
-
-?>
 <!DOCTYPE html>
 <html lang="ja">
  
@@ -18,6 +11,13 @@ include_once('../util.php');
         <form action="sign-in.php" method="post">
             <img src="<?php echo HOME_URL;?>Views/img/logo-white.svg" alt="" class="logo-white">
             <h1>Twitterクローンにログイン</h1>
+
+            <?php if(isset($view_try_login_result) && $view_try_login_result === false): ?>
+                <div class="alert alert-warning text-sm" role="alert">
+                    ログインに失敗しました。メールアドレス、パスワードが正しいかご確認ください
+                </div><!--bs alert alert-warning モダンなアラートが表示される ブラウザにアラート-->
+                <?php endif; ?>
+
             <input type="email" class="form-control"name="email"placeholder="メールアドレス" required autofocus><!--type(email)=入力したものがメールアドレス形式でなければエラーでかえす-->
             <input type="password" class="form-control"name="password"placeholder="パスワード" required><!--type(password)=入力時表示がアスタリスクになる-->
             <button class="w-100 btn btn-lg"　type="submit">ログイン</button><!--W-100=bsでwidthが100%になる btn-lg=ボタンが大きくなる-->
