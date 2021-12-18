@@ -45,9 +45,10 @@ function createTweet(array $data)//引数＝データ
  * ツイート一覧を取得
  * 
  * @param array $user ログインしているユーザー情報
+ * @param string $keyword 検索キーワード
  * @return array|false
  */
-function findTweets(array $user)
+function findTweets(array $user,string $keyword = null)
 {
         // DB接続
         $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -88,6 +89,19 @@ function findTweets(array $user)
                 T.status = 'active'
         SQL;
 
+        // 検索キーワードが入力されていた場合
+        if (isset($keyword)){
+            // エスケープ
+            $keyword = $mysqli->real_escape_string($keyword);
+            // ツイート主のニックネーム・ユーザー名・本文から部分一致検索
+            $query .= 'AND CONCAT(U.nickname, U.name, T.body)LIKE "%'.$keyword.'%"';//.=は文字列や変数を結合する　LIKEで%＋キーワード＋%曖昧検索ができる
+        }
+
+        // 新しい順に並び替え
+        $query .='ORDER BY T.created_at DESC';//DESCで新しい順にする
+        // 表示件数50件
+        $query .= ' LIMIT 50';
+        
         // クエリ実行
         $result = $mysqli->query($query);
         if($result){
